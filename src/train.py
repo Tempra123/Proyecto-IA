@@ -98,6 +98,11 @@ def entrenar(verbose: bool = True, dataset: str = "dinamico") -> dict:
             print(f"Features: {list(X.columns)}")
 
     # 2. Split
+    import numpy as np
+    X = X.replace([np.inf, -np.inf], np.nan)
+    X = X.fillna(X.median())
+    y = y.fillna(0)
+
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE
     )
