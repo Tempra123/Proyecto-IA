@@ -10,9 +10,11 @@ os.environ["OMP_NUM_THREADS"] = "1"
 from pathlib import Path
 import subprocess, sys
 if not Path("models/modelo_xgb.pkl").exists():
-    subprocess.run([sys.executable, "-m", "scripts.generar_datos"], check=True)
-    subprocess.run([sys.executable, "-m", "scripts.entrenar"], check=True)
-
+    from scripts.generar_datos import generar_dinamico
+    from src.train import entrenar
+    generar_dinamico()
+    entrenar()
+    
 import streamlit as st
 import pandas  as pd
 import numpy   as np
