@@ -3,6 +3,16 @@ app.py — Sistema de Riesgo Académico v6
 Evaluaciones dinámicas + comportamiento/contexto del estudiante (15 features).
 """
 
+import os
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+
+from pathlib import Path
+import subprocess, sys
+if not Path("models/modelo_xgb.pkl").exists():
+    subprocess.run([sys.executable, "-m", "scripts.generar_datos"], check=True)
+    subprocess.run([sys.executable, "-m", "scripts.entrenar"], check=True)
+
 import streamlit as st
 import pandas  as pd
 import numpy   as np
