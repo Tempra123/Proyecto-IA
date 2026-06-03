@@ -18,8 +18,7 @@ from xgboost                 import XGBClassifier
 from sklearn.model_selection import GridSearchCV, StratifiedKFold, train_test_split
 from sklearn.preprocessing   import StandardScaler
 from sklearn.impute          import SimpleImputer
-from imblearn.over_sampling  import SMOTE
-from imblearn.pipeline       import Pipeline as ImbPipeline
+from sklearn.pipeline import Pipeline as ImbPipeline
 
 from src.config import (
     MODEL_PATH, MODEL_INFO_PATH, MODELS_DIR,
@@ -59,10 +58,10 @@ def _construir_pipeline(scale_pos_weight: float) -> ImbPipeline:
         n_jobs=-1,
     )
     return ImbPipeline([
-        ("imputer", SimpleImputer(strategy="median")),
-        ("scaler",  StandardScaler()),
-        ("smote",   SMOTE(random_state=RANDOM_STATE)),
-        ("clf",     xgb),
+    ("imputer", SimpleImputer(strategy="median")),
+    ("scaler",  StandardScaler()),
+    ("clf",     xgb),
+
     ])
     xgb = XGBClassifier(
         scale_pos_weight=scale_pos_weight,
