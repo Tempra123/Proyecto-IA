@@ -807,7 +807,7 @@ def _mostrar_resultado(res: dict, nombre: str = ""):
               unsafe_allow_html=True
             )
     except Exception as _shap_err:
-      pass  # SHAP es opcional — si falla, no rompe la UI
+      st.warning(f"Error SHAP: {_shap_err}")
 
   # Detalle por evaluación 
   st.divider()
