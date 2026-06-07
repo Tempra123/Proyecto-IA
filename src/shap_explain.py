@@ -45,7 +45,12 @@ def _extraer_preprocesador_y_clf(modelo):
     Soporta tanto ImbPipeline como sklearn Pipeline estándar.
     """
     # ImbPipeline y Pipeline comparten la interfaz de named_steps
-    pre = modelo.named_steps.get("pre") or modelo.named_steps.get("preprocessor")
+    from sklearn.pipeline import Pipeline
+    if "pre" in modelo.named_steps:
+        pre = modelo.named_steps["pre"]
+    else:
+        steps = [(k,v) for k,v in modelo.named_steps.items() if k != "clf"]
+        pre = Pipeline(steps)
     clf = modelo.named_steps.get("clf") or modelo.named_steps.get("classifier")
     if pre is None or clf is None:
         raise ValueError(
